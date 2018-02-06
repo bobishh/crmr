@@ -1,0 +1,20 @@
+* Worker
+** DONE api wrapper
+   CLOSED: [2018-02-06 Tue 05:39]
+** DONE scheduler/worker
+   CLOSED: [2018-02-06 Tue 05:39]
+** TODO SPECS
+
+* Calc
+** DONE calculate function
+   CLOSED: [2018-02-06 Tue 05:39]
+** DONE rest endpoint
+   CLOSED: [2018-02-06 Tue 05:39]
+** TODO socket endpoint
+** TODO SPECS
+
+* Web
+** DONE page with result
+   CLOSED: [2018-02-06 Tue 05:39]
+** TODO sockets js
+** SPECS?

@@ -1,0 +1,1 @@
+<h1> <%= @sum %> <%= @currency %> is <%= @result %> $</h1>
