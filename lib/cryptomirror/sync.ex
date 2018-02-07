@@ -1,10 +1,9 @@
 defmodule Cryptomirror.Sync do
   use GenServer
   alias Cryptomirror.Fetcher
+  alias CryptomirrorWeb.Endpoint
   alias Cryptomirror.RateBuilder
   alias Cryptomirror.Repo
-# alias Cryptomirror.Endpoint
-  alias Cryptomirror.Logger
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -26,9 +25,20 @@ defmodule Cryptomirror.Sync do
     case Fetcher.call do
       {:ok, res} ->
         res |> RateBuilder.call |> Repo.insert!
+        Endpoint.broadcast! "rates:live", "update", process_for_socket(res)
       {:error, err } ->
-        Logger.error(err)
+        IO.inspect err
     end
+  end
+
+  defp process_for_socket(res) do
+    res |> Map.take(["BTC", "BCH", "ETH"]) |> downcase_keys
+  end
+
+  defp downcase_keys(map) do
+    Map.keys(map) |> Enum.reduce(%{}, fn (key, acc) ->
+      acc |> Map.put(String.downcase(key), Map.get(map, key))
+    end)
   end
 
   defp schedule_work() do

@@ -2,7 +2,7 @@ defmodule CryptomirrorWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", CryptomirrorWeb.RoomChannel
+  channel "rates:*", CryptomirrorWeb.RatesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

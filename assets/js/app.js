@@ -12,6 +12,21 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import RatesDisplay from "./rates_display"
+import CalculatorForm from "./calculator_form"
+import socket from "./socket"
+
+let displayNode = document.getElementById('display')
+
+if (displayNode) {
+    let display = new RatesDisplay(displayNode, socket, 'rates:live');
+}
+
+let formContainer = document.getElementById('form')
+
+if (formContainer) {
+    let form = new CalculatorForm(formContainer);
+}
 
 // Import local files
 //

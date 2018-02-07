@@ -1,26 +1,20 @@
 defmodule CryptomirrorWeb.CalculatorController do
   use CryptomirrorWeb, :controller
   alias Cryptomirror.Converter
-  use Params
-
-  defparams calculate_changeset %{
-    sum!: :float,
-    currency!: :string,
-    timestamp: :integer
-  }
+  alias Cryptomirror.CalculateParams
 
   def show(conn, params) do
-    changeset = calculate_changeset(params)
+    changeset = CalculateParams.from(params, with: &CalculateParams.child/2)
     if changeset.valid? do
       data = Params.data(changeset)
       case Converter.calculate(data.sum, data.currency, data.timestamp) do
         {:ok, value} ->
-          render conn, "show.html", %{result: value, currency: String.upcase(data.currency), sum: data.sum}
+          json conn, %{ result: value }
         {:error, err} ->
-          render conn, "error.html"
+          conn |> put_status(422) |> json(%{ error: err })
       end
     else
-      render conn, "error.html"
+      conn |> put_status(422) |> json(%{ error: "Wrong params" })
     end
   end
 end

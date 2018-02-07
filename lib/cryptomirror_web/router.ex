@@ -17,6 +17,11 @@ defmodule CryptomirrorWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+  end
+
+  scope "/api", CryptomirrorWeb do
+    pipe_through :api # Use api stack
+
     get "/calc", CalculatorController, :show
   end
 

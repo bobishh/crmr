@@ -10,7 +10,7 @@ defmodule Cryptomirror.ConverterTest do
                        eth: 1.0, rated_at: DateTime.utc_now() }
 
     with_mock Repo, [one: fn(_query) -> fake_rate end] do
-      { status, result } = Converter.calculate(12.12, "btc", nil)
+      { _ , result } = Converter.calculate(12.12, "btc", nil)
       assert result == 12.12
     end
   end
@@ -18,7 +18,7 @@ defmodule Cryptomirror.ConverterTest do
   test ".calculate returns nil if no rate found" do
     with_mock Repo, [one: fn(_query) -> nil end] do
       { status, _ } = Converter.calculate(12.12, "btc", nil)
-      assert  status == :error
+      assert status == :error
     end
   end
 end
