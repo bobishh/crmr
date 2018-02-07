@@ -13,8 +13,12 @@ defmodule CryptomirrorWeb.CalculatorController do
     changeset = calculate_changeset(params)
     if changeset.valid? do
       data = Params.data(changeset)
-      result = Converter.calculate(data.sum, data.currency, data.timestamp)
-      render conn, "show.html", %{result: result, currency: String.upcase(data.currency), sum: data.sum}
+      case Converter.calculate(data.sum, data.currency, data.timestamp) do
+        {:ok, value} ->
+          render conn, "show.html", %{result: value, currency: String.upcase(data.currency), sum: data.sum}
+        {:error, err} ->
+          render conn, "error.html"
+      end
     else
       render conn, "error.html"
     end
