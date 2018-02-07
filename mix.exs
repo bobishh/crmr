@@ -35,6 +35,8 @@ defmodule Cryptomirror.Mixfile do
     [
       {:httpoison, "~> 1.0"},
       {:mock, "~> 0.3.0", only: :test},
+      {:ex_machina, "~> 2.1", only: :test},
+      {:params, "~> 2.0"},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},

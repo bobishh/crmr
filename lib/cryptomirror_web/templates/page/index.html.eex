@@ -1,5 +1,7 @@
 <div class="row marketing">
-    <h3> Currencies at <%= @rate.rated_at %>: <h2>
-    <div id="display" class="currencies-display"></div>
-    <%= rates_list(@rate) %>
+    <% if @rate do %>
+        <h3> Currencies at <%= @rate.rated_at %>: <h2>
+        <div id="display" class="currencies-display"></div>
+        <%= rates_list(@rate) %>
+    <% end %>
 </div>

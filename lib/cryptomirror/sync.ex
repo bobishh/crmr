@@ -1,9 +1,10 @@
 defmodule Cryptomirror.Sync do
   use GenServer
   alias Cryptomirror.Fetcher
-  alias Cryptomirror.Rate
+  alias Cryptomirror.RateBuilder
   alias Cryptomirror.Repo
-  alias Cryptomirror.Endpoint
+# alias Cryptomirror.Endpoint
+  alias Cryptomirror.Logger
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -22,17 +23,12 @@ defmodule Cryptomirror.Sync do
   end
 
   defp request_and_process do
-    time = DateTime.utc_now()
-    Fetcher.call
-    |> prepare_data(time)
-    |> Repo.insert!
-  end
-
-  defp prepare_data(data, time) do
-    %Rate{ btc: Map.get(data, "BTC"),
-           bch: Map.get(data, "BCH"),
-           eth: Map.get(data, "ETH"),
-           rated_at: time }
+    case Fetcher.call do
+      {:ok, res} ->
+        res |> RateBuilder.call |> Repo.insert!
+      {:error, err } ->
+        Logger.error(err)
+    end
   end
 
   defp schedule_work() do
